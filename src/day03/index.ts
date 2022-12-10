@@ -1,17 +1,17 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput.split("\n");
+const parseInput = (rawInput: string): string[] => rawInput.split('\n');
 
-const alphabet = "abcdefghijklmnopqrstuvwxyz"
-  .split("")
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+  .split('')
   .reduce((map: { [key: string]: number }, item: string, index: number) => {
     map[item] = index + 1;
     return map;
   }, {});
 
-type Seen = "front" | "back";
+type Seen = 'front' | 'back';
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   let total = 0;
@@ -20,7 +20,7 @@ const part1 = (rawInput: string) => {
     const rucksack = input[i];
     const seen: Record<string, Record<Seen, boolean>> = {};
 
-    let dup: string = "";
+    let dup: string = '';
 
     for (let j = 0; j < rucksack.length / 2; j++) {
       const front = rucksack[j];
@@ -53,12 +53,12 @@ const part1 = (rawInput: string) => {
   return total;
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
   let total = 0;
 
   let seen: Record<string, Record<number, boolean>> = {};
-  let badge: string = "";
+  let badge: string = '';
 
   for (let i = 0; i < input.length; i++) {
     const memberId = i % 3;
@@ -81,7 +81,7 @@ const part2 = (rawInput: string) => {
       const alphaValue = alphabet[badge] ?? alphabet[badge.toLowerCase()] + 26;
       total += alphaValue;
 
-      badge = "";
+      badge = '';
       seen = {};
     }
   }

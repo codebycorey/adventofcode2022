@@ -1,12 +1,12 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput.split("\n");
+const parseInput = (rawInput: string): string[] => rawInput.split('\n');
 
 enum Direction {
-  UP = "U",
-  RIGHT = "R",
-  DOWN = "D",
-  LEFT = "L",
+  UP = 'U',
+  RIGHT = 'R',
+  DOWN = 'D',
+  LEFT = 'L',
 }
 
 const moveMap: Record<Direction, number[]> = {
@@ -24,7 +24,7 @@ const pullNext = (
 ): void => {
   const knot = rope[index];
 
-  if (!knot) {
+  if (knot === undefined) {
     seen.add(`${prev.x},${prev.y}`);
     return;
   }
@@ -68,20 +68,20 @@ const pullNext = (
   pullNext(rope, rope[index], seen, ++index);
 };
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
-  const rope: typeof knot[] = [];
+  const rope: Array<typeof knot> = [];
   const ropeLength = 2;
 
   for (let i = 0; i < ropeLength; i++) {
     rope.push({ ...knot });
   }
 
-  const seen = new Set<string>().add("0,0");
+  const seen = new Set<string>().add('0,0');
 
   for (let i = 0; i < input.length; i++) {
-    const [direction, count] = input[i].split(" ");
+    const [direction, count] = input[i].split(' ');
     const [mx, my] = moveMap[direction as Direction];
 
     for (let j = 0; j < parseInt(count); j++) {
@@ -94,26 +94,29 @@ const part1 = (rawInput: string) => {
   return seen.size;
 };
 
-type Knot = { x: number; y: number };
+interface Knot {
+  x: number
+  y: number
+}
 const knot: Knot = {
   x: 0,
   y: 0,
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
-  const rope: typeof knot[] = [];
+  const rope: Array<typeof knot> = [];
   const ropeLength = 10;
 
   for (let i = 0; i < ropeLength; i++) {
     rope.push({ ...knot });
   }
 
-  const seen = new Set<string>().add("0,0");
+  const seen = new Set<string>().add('0,0');
 
   for (let i = 0; i < input.length; i++) {
-    const [direction, count] = input[i].split(" ");
+    const [direction, count] = input[i].split(' ');
     const [mx, my] = moveMap[direction as Direction];
 
     for (let j = 0; j < parseInt(count); j++) {

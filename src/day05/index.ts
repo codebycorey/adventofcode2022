@@ -1,6 +1,6 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput.split("\n\n");
+const parseInput = (rawInput: string): string[] => rawInput.split('\n\n');
 
 const parseBoard = (board: string[]): string[][] => {
   const stacks: string[][] = [];
@@ -12,7 +12,7 @@ const parseBoard = (board: string[]): string[][] => {
         const column = row[j + 1];
         const stackNum = j / 4;
 
-        if (column !== " ") {
+        if (column !== ' ') {
           const stack = stacks[stackNum] || [];
 
           stack.push(column);
@@ -28,20 +28,20 @@ const parseBoard = (board: string[]): string[][] => {
 /**
  * notes: Use a stack
  */
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): string => {
   const input = parseInput(rawInput);
 
-  const board = input[0].split("\n");
-  const moves = input[1].split("\n");
+  const board = input[0].split('\n');
+  const moves = input[1].split('\n');
 
   const stacks: string[][] = parseBoard(board);
 
   for (let i = 0; i < moves.length; i++) {
     const [count, start, end] = moves[i]
-      .replace("move ", "")
-      .replace("from ", "")
-      .replace("to ", "")
-      .split(" ")
+      .replace('move ', '')
+      .replace('from ', '')
+      .replace('to ', '')
+      .split(' ')
       .map((val) => parseInt(val));
 
     for (let j = 0; j < count; j++) {
@@ -52,42 +52,42 @@ const part1 = (rawInput: string) => {
     }
   }
 
-  let letters = "";
+  let letters = '';
 
   for (let i = 0; i < stacks.length; i++) {
-    letters += stacks[i].pop() || "";
+    letters += stacks[i].pop() ?? '';
   }
 
   return letters;
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): string => {
   const input = parseInput(rawInput);
 
-  const board = input[0].split("\n");
-  const moves = input[1].split("\n");
+  const board = input[0].split('\n');
+  const moves = input[1].split('\n');
 
   const stacks: string[][] = parseBoard(board);
 
   for (let i = 0; i < moves.length; i++) {
     const [count, start, end] = moves[i]
-      .replace("move ", "")
-      .replace("from ", "")
-      .replace("to ", "")
-      .split(" ")
+      .replace('move ', '')
+      .replace('from ', '')
+      .replace('to ', '')
+      .split(' ')
       .map((val) => parseInt(val));
 
     const stack = stacks[start - 1];
-        
+
     const sliced = stack.slice(-count);
     stacks[start - 1] = stack.slice(0, stack.length - count);
     stacks[end - 1] = [...stacks[end - 1], ...sliced];
   }
 
-  let letters = "";
+  let letters = '';
 
   for (let i = 0; i < stacks.length; i++) {
-    letters += stacks[i].pop() || "";
+    letters += stacks[i].pop() ?? '';
   }
 
   return letters;

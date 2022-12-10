@@ -1,6 +1,6 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput.split("\n");
+const parseInput = (rawInput: string): string[] => rawInput.split('\n');
 
 enum Direction {
   t,
@@ -17,13 +17,13 @@ const DirectionCoordinates: Record<Direction, number[]> = {
   [Direction.b]: [0, 1],
 };
 
-type CoordinateState = {
-  isVisible: boolean;
-  [Direction.l]: number;
-  [Direction.r]: number;
-  [Direction.t]: number;
-  [Direction.b]: number;
-};
+interface CoordinateState {
+  isVisible: boolean
+  [Direction.l]: number
+  [Direction.r]: number
+  [Direction.t]: number
+  [Direction.b]: number
+}
 type Seen = CoordinateState[][];
 
 const emptyCoordinateState: CoordinateState = {
@@ -75,7 +75,7 @@ const walk1 = (
     }
 
     // Ran out of forrest
-    if (!seen[my]?.[mx]) {
+    if (seen[my]?.[mx] === undefined) {
       seen[y][x] = {
         ...seenValue,
         isVisible: true,
@@ -88,7 +88,12 @@ const walk1 = (
   return false;
 };
 
-const isVisible = (board: string[], seen: Seen, x: number, y: number) => {
+const isVisible = (
+  board: string[],
+  seen: Seen,
+  x: number,
+  y: number,
+): boolean => {
   for (let i = 0; i < directionArray.length; i++) {
     walk1(board, seen, x, y, directionArray[i]);
   }
@@ -96,7 +101,7 @@ const isVisible = (board: string[], seen: Seen, x: number, y: number) => {
   return seen[y][x].isVisible;
 };
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   const seen: Seen = [];
@@ -143,7 +148,7 @@ const walk2 = (
   return walk2(board, mx, my, direction, size, ++count);
 };
 
-const getTreeCount = (board: string[], x: number, y: number) => {
+const getTreeCount = (board: string[], x: number, y: number): number => {
   let count = 1;
   for (let i = 0; i < directionArray.length; i++) {
     const height = parseInt(board[y]?.[x] ?? 0);
@@ -154,7 +159,7 @@ const getTreeCount = (board: string[], x: number, y: number) => {
   return count;
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   let highest = 0;

@@ -1,8 +1,8 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput;
+const parseInput = (rawInput: string): string => rawInput;
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   const uniqueCount = 4;
@@ -21,7 +21,7 @@ const part1 = (rawInput: string) => {
   return end;
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   const uniqueCount = 14;

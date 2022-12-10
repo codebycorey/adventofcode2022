@@ -1,17 +1,17 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput;
+const parseInput = (rawInput: string): string => rawInput;
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
-  const wordList = input.split("\n");
+  const wordList = input.split('\n');
 
   let highestCalories = 0;
   let currentCalories = 0;
 
   for (let i = 0; i < wordList.length; i++) {
     const value = wordList[i];
-    if (value) {
+    if (value !== '') {
       currentCalories += Number(value);
     } else {
       if (currentCalories > highestCalories) {
@@ -23,16 +23,16 @@ const part1 = (rawInput: string) => {
   return highestCalories;
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
-  const wordList = input.split("\n");
+  const wordList = input.split('\n');
 
   const elves: number[] = [];
   let currentCalories = 0;
 
   for (let i = 0; i < wordList.length; i++) {
     const value = wordList[i];
-    if (value) {
+    if (value !== '') {
       currentCalories += Number(value);
     } else {
       elves.push(currentCalories);

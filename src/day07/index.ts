@@ -1,13 +1,13 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-type FileNode = {
-  value: { name: string; size: number };
-  parent: FileNode | null;
-  children: FileNode[];
-};
+interface FileNode {
+  value: { name: string, size: number }
+  parent: FileNode | null
+  children: FileNode[]
+}
 
 const createNode = (
-  value: FileNode["value"],
+  value: FileNode['value'],
   parent: FileNode | null,
 ): FileNode => ({
   value,
@@ -16,20 +16,20 @@ const createNode = (
 });
 
 class FileTree {
-  private head: FileNode;
+  private readonly head: FileNode;
   private current: FileNode;
 
-  public constructor(input: string[]) {
-    this.head = createNode({ name: "/", size: 0 }, null);
+  public constructor (input: string[]) {
+    this.head = createNode({ name: '/', size: 0 }, null);
     this.current = this.head;
 
     for (let i = 0; i < input.length; i++) {
-      const item = input[i].split(" ");
-      if (item[0] === "$") {
-        if (item[1] === "cd") {
+      const item = input[i].split(' ');
+      if (item[0] === '$') {
+        if (item[1] === 'cd') {
           this.cd(item[2]);
         }
-      } else if (item[0] === "dir") {
+      } else if (item[0] === 'dir') {
         this.addFileOrDir(item[1]);
       } else {
         this.addFileOrDir(item[1], parseInt(item[0]));
@@ -37,36 +37,39 @@ class FileTree {
     }
   }
 
-  public cd(value: string): void {
-    if (value === "/") {
+  public cd (value: string): void {
+    if (value === '/') {
       this.current = this.head;
       return;
     }
 
     const current = this.current;
-    if (value === ".." && current.parent) {
+    if (value === '..' && current.parent != null) {
       this.current = current.parent;
       return;
     }
 
     const dir = current.children.find((child) => child.value.name === value);
-    if (!dir) {
+    if (dir == null) {
       return;
     }
     this.current = dir;
   }
 
-  public addFileOrDir(name: string, size: number = 0): void {
+  public addFileOrDir (name: string, size: number = 0): void {
     const node = createNode({ name, size }, this.current);
     this.current.children.push(node);
-    if (size) {
+    if (size > 0) {
       this.addFileSizeToAllParents(node, size);
     }
   }
 
-  public addSizeForAllDirLessThanMax(max: number, node: FileNode = this.head) {
+  public addSizeForAllDirLessThanMax (
+    max: number,
+    node: FileNode = this.head,
+  ): number {
     let total = 0;
-    if (!node.children.length) {
+    if (node.children.length === 0) {
       return total;
     }
 
@@ -80,11 +83,11 @@ class FileTree {
     return total;
   }
 
-  public findDirToDelete(
+  public findDirToDelete (
     node: FileNode = this.head,
     nodeToDelete: FileNode = this.head,
-  ) {
-    if (!node.children.length) {
+  ): FileNode {
+    if (node.children.length === 0) {
       return nodeToDelete;
     }
 
@@ -110,18 +113,18 @@ class FileTree {
     return nodeToDelete;
   }
 
-  private addFileSizeToAllParents(node: FileNode, size: number): void {
+  private addFileSizeToAllParents (node: FileNode, size: number): void {
     const parent = node.parent;
-    if (parent) {
+    if (parent != null) {
       parent.value.size += size;
       this.addFileSizeToAllParents(parent, size);
     }
   }
 }
 
-const parseInput = (rawInput: string) => rawInput.split("\n");
+const parseInput = (rawInput: string): string[] => rawInput.split('\n');
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   const fileTree = new FileTree(input);
@@ -129,7 +132,7 @@ const part1 = (rawInput: string) => {
   return fileTree.addSizeForAllDirLessThanMax(100000);
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   const fileTree = new FileTree(input);

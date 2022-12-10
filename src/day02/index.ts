@@ -1,24 +1,24 @@
-import run from "aocrunner";
+import run from 'aocrunner';
 
-const parseInput = (rawInput: string) => rawInput.split("\n");
+const parseInput = (rawInput: string): string[] => rawInput.split('\n');
 
 // A = Rock, B = Paper, C = Scissors
 // X = Rock, Y = Paper, Z = Scissors
 
-type Elf = "A" | "B" | "C";
-type Player = "X" | "Y" | "Z";
+type Elf = 'A' | 'B' | 'C';
+type Player = 'X' | 'Y' | 'Z';
 type Outcome = Player;
 
 const mapPlayers: Record<Elf, Player> = {
-  A: "X",
-  B: "Y",
-  C: "Z",
+  A: 'X',
+  B: 'Y',
+  C: 'Z',
 };
 
 const mapWinner: Record<Elf, Player> = {
-  A: "Y",
-  B: "Z",
-  C: "X",
+  A: 'Y',
+  B: 'Z',
+  C: 'X',
 };
 
 const mapPlayValue: Record<Player, number> = {
@@ -27,13 +27,13 @@ const mapPlayValue: Record<Player, number> = {
   Z: 3,
 };
 
-const part1 = (rawInput: string) => {
+const part1 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   let score = 0;
 
   for (let i = 0; i < input.length; i++) {
-    const [elf, me] = input[i].split(" ") as [Elf, Player];
+    const [elf, me] = input[i].split(' ') as [Elf, Player];
 
     let round = mapPlayValue[me];
     if (mapWinner[elf] === me) {
@@ -51,21 +51,21 @@ const part1 = (rawInput: string) => {
 // A = Rock, B = Paper, C = Scissors
 // X = Rock, Y = Paper, Z = Scissors
 const loseMap: Record<Elf, Player> = {
-  A: "Z",
-  B: "X",
-  C: "Y",
+  A: 'Z',
+  B: 'X',
+  C: 'Y',
 };
 
 const drawMap: Record<Elf, Player> = {
-  A: "X",
-  B: "Y",
-  C: "Z",
+  A: 'X',
+  B: 'Y',
+  C: 'Z',
 };
 
 const winMap: Record<Elf, Player> = {
-  A: "Y",
-  B: "Z",
-  C: "X",
+  A: 'Y',
+  B: 'Z',
+  C: 'X',
 };
 
 const outcomeMap: Record<Outcome, Record<Elf, Player>> = {
@@ -80,19 +80,18 @@ const outcomeValueMap: Record<Outcome, number> = {
   Z: 6,
 };
 
-const part2 = (rawInput: string) => {
+const part2 = (rawInput: string): number => {
   const input = parseInput(rawInput);
 
   let score = 0;
 
   for (let i = 0; i < input.length; i++) {
-    const [elf, outcome] = input[i].split(" ") as [Elf, Outcome];
+    const [elf, outcome] = input[i].split(' ') as [Elf, Outcome];
 
     const player = outcomeMap[outcome][elf];
     const outcomeValue = outcomeValueMap[outcome];
     const playValue = mapPlayValue[player];
 
-    // console.log(outcomeValue, playValue);
     score += outcomeValue + playValue;
   }
 
